@@ -9,6 +9,7 @@
 #include "hal_spi.h"
 #include "hal_i2c.h"
 #include "hal_adc.h"
+#include "hal_ds1307.h"
 
 // Blue Pill = STM32F103 = 8MHz HSI за замовчуванням
 #define CPU_HZ  8000000UL

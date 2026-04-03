@@ -21,7 +21,8 @@ SRC = src/startup.c \
       hal/hal_tim.c  \
       hal/hal_spi.c  \
       hal/hal_i2c.c  \
-      hal/hal_adc.c  
+      hal/hal_adc.c  \
+      hal/hal_ds1307.c
 
 all:
 	$(CC) $(CFLAGS) $(LDFLAGS) $(SRC) -o $(TARGET).elf
