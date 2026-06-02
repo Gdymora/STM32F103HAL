@@ -1,0 +1,151 @@
+
+<style>
+  .wrap { padding: 0.25rem 0; font-family: var(--font-sans); }
+  h3 { font-size: 15px; font-weight: 600; margin: 18px 0 8px; color: var(--color-text-primary); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 16px; }
+  th { font-weight: 500; font-size: 11px; padding: 7px 5px; text-align: left; border-bottom: 1.5px solid var(--color-border-primary); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.3px; }
+  td { padding: 5px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: top; }
+  .p { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-secondary); text-align: center; }
+  .tag { font-size: 10.5px; padding: 2px 6px; border-radius: var(--border-radius-md); display: inline-block; font-weight: 500; }
+  .uart { background: #e8d5f5; color: #6b21a8; }
+  .spi { background: #fce4ec; color: #c62828; }
+  .i2c { background: #e3f2fd; color: #1565c0; }
+  .gpio { background: #e8f5e9; color: #2e7d32; }
+  .pwr { background: var(--color-background-info); color: var(--color-text-info); }
+  .gnd { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  .arrow { color: var(--color-text-tertiary); font-size: 14px; }
+  tr:hover td { background: var(--color-background-secondary); }
+  .note { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .sect td { font-weight: 500; font-size: 11.5px; padding-top: 12px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--color-border-secondary); }
+  .summary { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 12px 16px; margin-top: 8px; font-size: 13px; color: var(--color-text-primary); line-height: 1.6; }
+  .summary b { color: var(--color-text-primary); }
+</style>
+
+<div class="wrap">
+
+<h3>Конектори плати → UART маппінг</h3>
+<table>
+<thead>
+<tr><th>Конектор</th><th>Призначення</th><th>Піни</th><th>Pi Pico</th><th></th><th>Luckfox</th><th>Тип</th></tr>
+</thead>
+<tbody>
+<tr class="sect"><td colspan="7">UART — готові для периферії</td></tr>
+
+<tr>
+  <td><b>U4</b></td><td>BMP180 #1</td>
+  <td class="p">19<br>20</td>
+  <td>GP14 (I2C1 SDA)<br>GP15 (I2C1 SCL)</td>
+  <td class="arrow">→<br>→</td>
+  <td><b>UART3_TX_M1</b> (GPIO1_D0)<br><b>UART3_RX_M1</b> (GPIO1_D1)</td>
+  <td><span class="tag uart">UART3</span></td>
+</tr>
+
+<tr>
+  <td><b>U3</b></td><td>BMP180 #2</td>
+  <td class="p">21<br>22</td>
+  <td>GP16 (SPI0 RX / UART0 TX)<br>GP17 (SPI0 CSn / UART0 RX)</td>
+  <td class="arrow">→<br>→</td>
+  <td><b>UART1_TX_M1</b> (GPIO2_A4)<br><b>UART1_RX_M1</b> (GPIO2_A5)</td>
+  <td><span class="tag uart">UART1</span></td>
+</tr>
+
+<tr>
+  <td><b>U11</b></td><td>Гребінка (GP4/5)</td>
+  <td class="p">6<br>7</td>
+  <td>GP4 (SPI0 RX / UART1 TX)<br>GP5 (SPI0 CSn / UART1 RX)</td>
+  <td class="arrow">→<br>→</td>
+  <td><b>UART4_TX_M1</b> (GPIO1_C5)<br><b>UART4_RX_M1</b> (GPIO1_C4)</td>
+  <td><span class="tag uart">UART4</span></td>
+</tr>
+
+<tr>
+  <td>—</td><td>Консоль (зайнятий)</td>
+  <td class="p">1<br>2</td>
+  <td>GP0 (UART0 TX)<br>GP1 (UART0 RX)</td>
+  <td class="arrow">→<br>→</td>
+  <td>UART2_TX_M1 (GPIO1_B2)<br>UART2_RX_M1 (GPIO1_B3)</td>
+  <td><span class="tag gnd">FIQ</span></td>
+</tr>
+
+<tr class="sect"><td colspan="7">SPI — зсувний регістр (розпаяний)</td></tr>
+
+<tr>
+  <td><b>SN74HC595</b></td><td>DATA (DS)</td>
+  <td class="p">4</td>
+  <td>GP2 (SPI0 SCK)</td>
+  <td class="arrow">→</td>
+  <td>GPIO1_C7 (UART4_CTS_M1)</td>
+  <td><span class="tag gpio">GPIO</span></td>
+</tr>
+<tr>
+  <td></td><td>LATCH (STCP)</td>
+  <td class="p">5</td>
+  <td>GP3 (SPI0 TX)</td>
+  <td class="arrow">→</td>
+  <td>GPIO1_C6 (UART4_RTS_M1)</td>
+  <td><span class="tag gpio">GPIO</span></td>
+</tr>
+<tr>
+  <td></td><td>CLOCK (SHCP)</td>
+  <td class="p">9</td>
+  <td>GP6 (SPI0 SCK)</td>
+  <td class="arrow">→</td>
+  <td>GPIO1_D2 (SPI0_CS1_M0)</td>
+  <td><span class="tag gpio">GPIO</span></td>
+</tr>
+
+<tr class="sect"><td colspan="7">SPI0 — на гребінці U11</td></tr>
+
+<tr>
+  <td><b>U11</b></td><td>SPI0</td>
+  <td class="p">14<br>15<br>16<br>17</td>
+  <td>GP10 (SPI1 SCK)<br>GP11 (SPI1 TX)<br>GP12 (SPI1 RX)<br>GP13 (SPI1 CSn)</td>
+  <td class="arrow">→<br>→<br>→<br>→</td>
+  <td>SPI0_CS0 (GPIO1_C0)<br>SPI0_CLK (GPIO1_C1)<br>SPI0_MOSI (GPIO1_C2)<br>SPI0_MISO (GPIO1_C3)</td>
+  <td><span class="tag spi">SPI0</span></td>
+</tr>
+
+<tr class="sect"><td colspan="7">I2C — на гребінці</td></tr>
+
+<tr>
+  <td><b>U11</b></td><td>I2C3</td>
+  <td class="p">9<br>10</td>
+  <td>GP6 / GP7</td>
+  <td class="arrow">→<br>→</td>
+  <td>I2C3_SDA_M1 (pin 9*)<br>I2C3_SCL_M1 (pin 10*)</td>
+  <td><span class="tag i2c">I2C3</span></td>
+</tr>
+
+<tr class="sect"><td colspan="7">Інше</td></tr>
+
+<tr>
+  <td>SIM800L</td><td>TX / RX</td>
+  <td class="p">11<br>12</td>
+  <td>GP8 (UART1 TX)<br>GP9 (UART1 RX)</td>
+  <td class="arrow">→<br>→</td>
+  <td>UART0_TX_M1 (GPIO2_B1)<br>SPI0_CS0 (GPIO1_C0)</td>
+  <td><span class="tag gnd">½ UART</span><div class="note">TX є, RX немає</div></td>
+</tr>
+
+<tr>
+  <td>PIR</td><td>Сигнал</td>
+  <td class="p">34</td>
+  <td>GP28 (ADC2)</td>
+  <td class="arrow">→</td>
+  <td>RESET</td>
+  <td><span class="tag gnd">⚠ не підкл.</span></td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="summary">
+  <b>Підсумок для Місяця 3:</b><br>
+  • <b>3 повних UART</b> для периферії: U4→UART3, U3→UART1, U11→UART4<br>
+  • <b>SPI0</b> повний на гребінці U11 (піни 14-17) — для дисплеїв, flash, тощо<br>
+  • <b>SN74HC595</b> — керується через GPIO bit-bang (3 піни)<br>
+  • <b>SIM800L конектор</b> — тільки TX, повний UART не виходить<br>
+  • <b>PIR конектор</b> — НЕ підключати (пін 34 = RESET на Luckfox)
+</div>
+
+</div>
